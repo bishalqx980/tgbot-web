@@ -1,7 +1,7 @@
 
 // Onload
 function load() {
-    alert("still many work have to do...")
+    //alert("still many work have to do...")
     var year = new Date().getFullYear();
     document.getElementById("year").innerHTML = year;
     var bot_api = localStorage.getItem("bot_api")
