@@ -41,7 +41,7 @@ function ping() {
         if (api_res == 200) {
             server_response.innerHTML = "BOT is Working!!";
         }else {
-            server_response.innerHTML = "<b>Error »</b> BOT API Changed/BOT Deleted!";
+            server_response.innerHTML = "<span style='color: rgb(255, 0, 0);'>Error »</span> BOT API Changed/BOT Deleted!";
         }
     }
 }
@@ -91,7 +91,7 @@ function get_chatinfo() {
             server_update_response.scrollTop = server_update_response.scrollHeight;
             server_response.innerHTML = "<b>Info Generated!</b>"
         }else {
-            server_response.innerHTML = "<b>Error »</b><br>" + api_res + api.response
+            server_response.innerHTML = "<span style='color: rgb(255, 0, 0);'>Error »</span><br>" + api_res + api.response
         }
     }
 }
@@ -119,7 +119,7 @@ function get_admin() {
             server_update_response.scrollTop = server_update_response.scrollHeight;
             server_response.innerHTML = "<b>Group/Channel Admin list Generated!</b>"
         }else {
-            server_response.innerHTML = "<b>Error »</b><br>" + api_res + api.response
+            server_response.innerHTML = "<span style='color: rgb(255, 0, 0);'>Error »</span><br>" + api_res + api.response
         }
     }
 }
@@ -147,7 +147,7 @@ function get_member() {
             server_update_response.scrollTop = server_update_response.scrollHeight;
             server_response.innerHTML = "<b>Group/Channel Members [number] Generated!</b>"
         }else {
-            server_response.innerHTML = "<b>Error »</b><br>" + api_res + api.response
+            server_response.innerHTML = "<span style='color: rgb(255, 0, 0);'>Error »</span><br>" + api_res + api.response
         }
     }
 }
@@ -176,7 +176,7 @@ function get_memberinfo() {
             server_update_response.scrollTop = server_update_response.scrollHeight;
             server_response.innerHTML = "<b>Group/Channel Specific Member Info Generated!</b>"
         }else {
-            server_response.innerHTML = "<b>Error »</b><br>" + api_res + api.response
+            server_response.innerHTML = "<span style='color: rgb(255, 0, 0);'>Error »</span><br>" + api_res + api.response
         }
     }
 }
@@ -213,7 +213,7 @@ function leave_chat_confirm() {
             server_update_response.scrollTop = server_update_response.scrollHeight;
             server_response.innerHTML = "<b>Group/Channel Left Succesfully!</b>"
         }else {
-            server_response.innerHTML = "<b>Error »</b><br>" + api_res + api.response
+            server_response.innerHTML = "<span style='color: rgb(255, 0, 0);'>Error »</span><br>" + api_res + api.response
         }
     }
 }
@@ -233,7 +233,7 @@ function sendmsg() {
         if (api_res == 200) {
             server_response.innerHTML = "<b>Message Sent!</b>"
         }else {
-            server_response.innerHTML = "<b>Message not Sent! »</b><br>" + api_res + api.response
+            server_response.innerHTML = "<span style='color: rgb(255, 0, 0);'>Message not Sent! »</span><br>" + api_res + api.response
         }
     }
 }
@@ -242,7 +242,7 @@ function check_length() {
     var textarea = document.getElementById("message");
     var server_response = document.getElementById("server_response")
     if (textarea.value.length > 1800) {
-        server_response.innerHTML = "Error » Inputed text is: " + textarea.value.length + " | Max_length: 1800"
+        server_response.innerHTML = "<span style='color: rgb(255, 0, 0);'>Error »</span> Inputed text is: " + textarea.value.length + " | Max_length: 1800"
     }else {
         server_response.innerHTML = "Inputed text is: " + textarea.value.length
     }
@@ -263,7 +263,7 @@ function sendphoto() {
         if (api_res == 200) {
             server_response.innerHTML = "<b>Photo Sent!</b>"
         }else {
-            server_response.innerHTML = "<b>Photo not Sent! »</b><br>" + api_res + api.response
+            server_response.innerHTML = "<span style='color: rgb(255, 0, 0);'>Photo not Sent! »</span><br>" + api_res + api.response
         }
     }
 }
@@ -272,6 +272,8 @@ function send_local_photo() {
     var bot_api = document.getElementById("bot_api").value;
     var chat_id = document.getElementById("chat_id").value;
     var server_response = document.getElementById("server_response");
+
+    server_response.innerHTML = "<span style='color: rgb(255, 0, 0);'>Uploading!</span>"
 
     var fileInput = document.getElementById("local_photo");
     var file = fileInput.files[0];
@@ -286,7 +288,7 @@ function send_local_photo() {
         server_response.innerHTML = "Photo Sent!";
     })
     .catch((error) => {
-        server_response.innerHTML = "Error » Photo not Sent!";
+        server_response.innerHTML = "<span style='color: rgb(255, 0, 0);'>Error »</span> Photo not Sent!";
     });
 }
 // get_bot_info
@@ -311,7 +313,7 @@ function get_bot_info() {
             server_update_response.innerHTML = output_json 
             server_update_response.scrollTop = server_update_response.scrollHeight;
         }else {
-            server_update_response.innerHTML = "<b>Error »</b><br>" + api_res + api.response
+            server_update_response.innerHTML = "<span style='color: rgb(255, 0, 0);'>Error »</span><br>" + api_res + api.response
         }
     }
 } 
@@ -337,7 +339,7 @@ function get_update() {
             server_update_response.innerHTML = output_json 
             server_update_response.scrollTop = server_update_response.scrollHeight;
         }else {
-            server_update_response.innerHTML = "<b>Error »</b><br>" + api_res + api.response
+            server_update_response.innerHTML = "<span style='color: rgb(255, 0, 0);'>Error »</span><br>" + api_res + api.response
         }
     }
 }
