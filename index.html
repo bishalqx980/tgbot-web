@@ -5,23 +5,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
-    <title>Telegram Message Sender 2.1</title>
+    <title>Telegram Message Sender 2.3</title>
     <link rel="stylesheet" href="./main.css">
     <script src="./main.js"></script>
+    <script src="./junk.js"></script>
 </head>
 <body onload="load()">
     <div class="main_div" id="main_div">
-        <h1 id="response">Telegram Message Sender 2.1</h1>
+        <h1 id="response">Telegram Message Sender 2.3</h1>
         <div id="Welcome_js">
             <p id="server_response"></p>
         </div>
         <br><br>
         <input type="text" name="" id="bot_api" class="text_area" placeholder="BOT API">
-        <input type="text" name="" id="chat_id" class="text_area" placeholder="Chat ID">
+        <button class="btn" onclick="ping()">Ping</button>
         <br>
+        <input type="text" name="" id="chat_id" class="text_area" placeholder="Chat/Group/Channel ID">
         <input type="text" name="" id="user_id" class="text_area" placeholder="User ID">
         <br><br>
-        <button class="btn" onclick="save_value()">Save Value</button>
+        <button class="btn" onclick="save_value()">Save API & ID</button>
         <br><br>
         <div class="btn_div">
             <b>Font Style</b><br><br>
@@ -38,12 +40,15 @@
         <button onclick="sendmsg()" class="btn proceed" id="proceedbtn">Send Message</button>
         <button onclick="sendphoto()" class="btn proceed" id="proceedbtn">Send Photo [URL]</button>
         <br>
+        <input type="file" accept="image/*" name="" class="btn" id="local_photo">
+        <button onclick="send_local_photo()" class="btn lpb" id="send_local_photo">Send Photo</button>
+        <br>
         <button class="btn proceed" id="advance_option_btn" onclick="show_advance_option()">Show Advance Option's</button>
         <div id="group_btn" style="display: none;">
             <button onclick="get_chatinfo()" class="btn proceed" id="proceedbtn">Get Chat/Group/Channel Info</button>
             <button onclick="get_admin()" class="btn proceed" id="proceedbtn">Get Group/Channel Admin's</button>
-            <button onclick="get_member()" class="btn proceed" id="proceedbtn">Get Group/Channel Member's</button>
-            <button onclick="get_memberinfo()" class="btn proceed" id="proceedbtn">Get Info Specific Member</button>
+            <button onclick="get_member()" class="btn proceed" id="proceedbtn">Get Connected Member's</button>
+            <button onclick="get_memberinfo()" class="btn proceed" id="proceedbtn" title="UserID Required">Get Info Specific Member</button>
             <br>
             <button onclick="leave_chat()" class="btn proceed" id="proceedbtn">Leave Chat</button>
         </div>

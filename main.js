@@ -21,10 +21,28 @@ function welcome_js() {
     document.getElementById("Welcome_js").className = "notification_css";
     // Proceed
     if (welcome_msg == null) {
-        document.getElementById("server_response").innerHTML = "Welcome to Telegram Message Sender 2.1 by <a herf='https://bishalqx980.github.io/bishalqx980/'>@bishalqx980</a>"
+        document.getElementById("server_response").innerHTML = "Welcome to Telegram Message Sender 2.3 by <a herf='https://bishalqx980.github.io/bishalqx980/'>@bishalqx980</a>"
         localStorage.setItem("welcome_msg", "done");
     }else {
         document.getElementById("server_response").innerHTML = "Welcome Back!!"
+    }
+}
+// ping the bot
+function ping() {
+    var bot_api = document.getElementById("bot_api").value;
+    var url = `https://api.telegram.org/bot${bot_api}/getMe`;
+    
+    let api = new XMLHttpRequest();
+    api.open("GET", url, true);
+    api.send();
+    api.onload = function() {
+        var api_res = api.status;
+        var server_response = document.getElementById("server_response");
+        if (api_res == 200) {
+            server_response.innerHTML = "BOT is Working!!";
+        }else {
+            server_response.innerHTML = "<b>Error »</b> BOT API Changed/BOT Deleted!";
+        }
     }
 }
 // localStorage
@@ -248,6 +266,28 @@ function sendphoto() {
             server_response.innerHTML = "<b>Photo not Sent! »</b><br>" + api_res + api.response
         }
     }
+}
+// Send local Photo
+function send_local_photo() {
+    var bot_api = document.getElementById("bot_api").value;
+    var chat_id = document.getElementById("chat_id").value;
+    var server_response = document.getElementById("server_response");
+
+    var fileInput = document.getElementById("local_photo");
+    var file = fileInput.files[0];
+    var formData = new FormData();
+    formData.append("photo", file, file.name);
+    axios.post(`https://api.telegram.org/bot${bot_api}/sendPhoto?chat_id=${chat_id}`, formData, {
+        headers: {
+        'Content-Type': 'multipart/form-data'
+        }
+    })
+    .then((response) => {
+        server_response.innerHTML = "Photo Sent!";
+    })
+    .catch((error) => {
+        server_response.innerHTML = "Error » Photo not Sent!";
+    });
 }
 // get_bot_info
 function get_bot_info() {

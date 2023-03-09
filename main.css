@@ -68,6 +68,9 @@ body {
     width: 250px;
     padding: 10px;
 }
+.lpb {
+    padding: 8px;
+}
 .btn_div {
     width: 80%;
     margin: auto;
