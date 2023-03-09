@@ -10,6 +10,22 @@ function load() {
     document.getElementById("bot_api").value = bot_api;
     document.getElementById("chat_id").value = chat_id;
     document.getElementById("user_id").value = user_id;
+    welcome_js();
+    console.log("Telegram Message Sender 2.0 by @bishalqx980 || https://bishalqx980.github.io/bishalqx980/");
+}
+// Welcome
+function welcome_js() {
+    var welcome_msg = localStorage.getItem("welcome_msg");
+    // Start
+    document.getElementById("Welcome_js").style.display = "";
+    document.getElementById("Welcome_js").className = "notification_css";
+    // Proceed
+    if (welcome_msg == null) {
+        document.getElementById("server_response").innerHTML = "Welcome to Telegram Message Sender 2.1 by <a herf='https://bishalqx980.github.io/bishalqx980/'>@bishalqx980</a>"
+        localStorage.setItem("welcome_msg", "done");
+    }else {
+        document.getElementById("server_response").innerHTML = "Welcome Back!!"
+    }
 }
 // localStorage
 function save_value() {

@@ -19,9 +19,29 @@ body {
     border-radius: 5px;
     padding: 5px;
 }
-hr {
-    width: 90%;
-    opacity: 50%;
+.notification_css {
+    width: 512px;
+    min-width: 25%;
+    max-width: 80%;
+    position: fixed;
+    right: -1%;
+    top: 1%;
+    background-color: rgb(240, 240, 240);
+    box-shadow: 0px 0px 2px rgb(0, 0, 0);
+    border-bottom: solid 2px rgb(3, 155, 229);
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 22px;
+    font-style: italic;
+    animation: slide 500ms;
+}
+@keyframes slide {
+    from {
+        transform: translateX(150%);
+    }
+    to {
+        transform: translateX(0%);
+    }
 }
 .text_area {
     width: 200px;
