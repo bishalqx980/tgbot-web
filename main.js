@@ -248,7 +248,33 @@ function sendphoto() {
             server_response.innerHTML = "<b>Photo not Sent! »</b><br>" + api_res + api.response
         }
     }
-}    
+}
+// get_bot_info
+function get_bot_info() {
+    var bot_api = document.getElementById("bot_api").value;
+    var url = `https://api.telegram.org/bot${bot_api}/getMe`;
+    
+    let api = new XMLHttpRequest();
+    api.open("GET", url, true);
+    api.send();
+    api.onload = function() {
+        var api_res = api.status;
+        var server_update_response = document.getElementById("server_update_response");
+        if (api_res == 200) {
+            var json = api.response;
+            var data = JSON.parse(json);
+            var output_data = {};
+            for (var key in data) {
+                output_data[key] = data[key];
+            }
+            var output_json = JSON.stringify(output_data);
+            server_update_response.innerHTML = output_json 
+            server_update_response.scrollTop = server_update_response.scrollHeight;
+        }else {
+            server_update_response.innerHTML = "<b>Error »</b><br>" + api_res + api.response
+        }
+    }
+} 
 // getUpdates
 function get_update() {
     var bot_api = document.getElementById("bot_api").value;

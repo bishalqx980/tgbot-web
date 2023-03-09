@@ -13,7 +13,7 @@
     <div class="main_div" id="main_div">
         <h1 id="response">Telegram Message Sender 2.1</h1>
         <div id="Welcome_js">
-            <p id="server_response">- Response! -</p>
+            <p id="server_response"></p>
         </div>
         <br><br>
         <input type="text" name="" id="bot_api" class="text_area" placeholder="BOT API">
@@ -50,6 +50,7 @@
         <br>
         <textarea name="" id="server_update_response" class="output_area" cols="30" rows="10" placeholder="Log_Area/Get_Update/Group_Info" readonly disabled></textarea>
         <br><br>
+        <button onclick="get_bot_info()" class="btn proceed" id="proceedbtn">Get BOT Info</button>
         <button onclick="get_update()" class="btn proceed" id="proceedbtn">Get Overall Update</button>
     </div>
     <hr>
