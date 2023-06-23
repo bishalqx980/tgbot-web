@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@bishalqx980 site stats's</title>
+    <style>
+        body {
+            width: 96%;
+            margin: auto;
+            background-color: rgb(0, 0, 0);
+            color: rgb(0, 200, 0);
+            font-size: 18px;
+            font-family: monospace;
+        }
+        hr {
+            opacity: 10%;
+        }
+        a {
+            color: rgb(255, 0, 0);
+        }
+        .btn {
+            background-color: rgb(0, 0, 0);
+            color: rgb(0, 200, 0);
+            border: solid 1px rgb(0, 200, 0);
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 300ms;
+        }
+        .btn:hover {
+            box-shadow: 0px 0px 10px rgb(0, 200, 0);
+        }
+    </style>    
+    <script>
+        function m_ping() {
+            alert("Checking...");
+            ping();
+        }
+        function ping() {
+            var zerourlshortenerbot = "https://cors-anywhere.herokuapp.com/" + "https://zerourlshortenerbot.bishalqx980.repl.co";
+            var cmddelbot = "https://cors-anywhere.herokuapp.com/" + "https://cmddelbot.bishalqx980.repl.co";
+            var melina = "https://cors-anywhere.herokuapp.com/" + "https://melina-ymlzagfsbot.bishalqx980.repl.co";
+            var server0x01 = "https://cors-anywhere.herokuapp.com/" + "https://server0x01.eu.org";
+
+            var output_zerourlshortenerbot = document.getElementById("output_zerourlshortenerbot");
+            var output_cmddelbot = document.getElementById("output_cmddelbot");
+            var output_melina = document.getElementById("output_melina");
+            var output_server0x01 = document.getElementById("output_server0x01");
+            
+            let zerourlshortenerbot_api = new XMLHttpRequest()
+            zerourlshortenerbot_api.open("GET", zerourlshortenerbot, true);
+
+            let cmddelbot_api = new XMLHttpRequest()
+            cmddelbot_api.open("GET", cmddelbot, true);
+
+            let melina_api = new XMLHttpRequest()
+            melina_api.open("GET", melina, true);
+
+            let server0x01_api = new XMLHttpRequest()
+            server0x01_api.open("GET", server0x01, true);
+
+            zerourlshortenerbot_api.send();
+            cmddelbot_api.send();
+            melina_api.send();
+            server0x01_api.send();
+
+            zerourlshortenerbot_api.onload = function() {
+                var api_res = zerourlshortenerbot_api.status;
+                if (api_res == 200) {
+                    output_zerourlshortenerbot.innerHTML = "Website is Up!! -" + api_res;
+                }else {
+                    output_zerourlshortenerbot.innerHTML = "<span style='color: rgb(255, 0, 0);'>Website is Down!!</span> -" + api_res;
+                }
+            }
+            cmddelbot_api.onload = function() {
+                var api_res = cmddelbot_api.status;
+                if (api_res == 200) {
+                    output_cmddelbot.innerHTML = "Website is Up!! -" + api_res;
+                }else {
+                    output_cmddelbot.innerHTML = "<span style='color: rgb(255, 0, 0);'>Website is Down!!</span> -" + api_res;
+                }
+            }
+            melina_api.onload = function() {
+                var api_res = melina_api.status;
+                if (api_res == 200) {
+                    output_melina.innerHTML = "Website is Up!! -" + api_res;
+                }else {
+                    output_melina.innerHTML = "<span style='color: rgb(255, 0, 0);'>Website is Down!!</span> -" + api_res;
+                }
+            }
+            server0x01_api.onload = function() {
+                var api_res = server0x01_api.status;
+                if (api_res == 200) {
+                    output_server0x01.innerHTML = "Website is Up!! -" + api_res;
+                }else {
+                    output_server0x01.innerHTML = "<span style='color: rgb(255, 0, 0);'>Website is Down!!</span> -" + api_res;
+                }
+            }
+        }
+    </script>
+</head>
+<body onload="ping()">
+    <h1><a href="https://bishalqx980.github.io/bishalqx980/">@bishalqx980</a> site stats's</h1>
+    <hr>
+    <p><b><u>URL Shortener ⚡</u>:</b> <span id="output_zerourlshortenerbot">...</span></p>
+    <p><b><u>Red J. Bird</u>:</b> <span id="output_cmddelbot">...</span></p>
+    <p><b><u>Melina</u>:</b> <span id="output_melina">...</span></p>
+    <p><b><u>server0x01.eu.org</u>:</b> <span id="output_server0x01">...</span></p>
+    <button class="btn" onclick="m_ping()">↺ Manually Ping</button>
+    <p>Check out: <a href="https://t.me/bishalqx680">https://t.me/bishalqx680</a></p>
+
+</body>
+</html>
