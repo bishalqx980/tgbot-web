@@ -2,63 +2,69 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
     <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
-    <title>telegram-bot-playground 2.3</title>
-    <link rel="stylesheet" href="./main.css">
-    <script src="./main.js"></script>
+    <link rel="stylesheet" href="app.css">
+    <title>telegram-bot-playground v3</title>
+    <script src="./app.js"></script>
     <script src="./junk.js"></script>
 </head>
 <body onload="load()">
-    <div class="main_div" id="main_div">
-        <h1 id="response">telegram-bot-playground 2.3</h1>
-        <div id="Welcome_js">
-            <p id="server_response"></p>
-        </div>
-        <br><br>
-        <input type="text" name="" id="bot_api" class="text_area" placeholder="BOT API">
-        <button class="btn" onclick="ping()">Ping</button>
-        <br>
-        <input type="text" name="" id="chat_id" class="text_area" placeholder="Chat/Group/Channel ID">
-        <input type="text" name="" id="user_id" class="text_area" placeholder="User ID">
-        <br><br>
-        <button class="btn" onclick="save_value()">Save API & ID</button>
-        <br><br>
-        <div class="btn_div">
-            <b>Font Style</b><br><br>
-            <button class="btn" onclick="bold_font()">Bold</button>
-            <button class="btn" onclick="italic_font()">Italic</button>
-            <button class="btn" onclick="underline_font()">Underline</button>
-            <button class="btn" onclick="strikethrough_font()">Strikethrough</button>
-            <button class="btn" onclick="monospace_font()">Monospace</button>
-            <button class="btn" onclick="spoiler_font()">Spoiler</button>
-            <button class="btn" onclick="createlink_font()">Create Link</button>
-        </div><br>
-        <textarea name="" id="message" class="output_area" cols="30" rows="10" oninput="check_length()" placeholder="Your Message/Photo_URL/URL Here!"></textarea>
-        <br><br>
-        <button onclick="sendmsg()" class="btn proceed" id="proceedbtn">Send Message</button>
-        <button onclick="sendphoto()" class="btn proceed" id="proceedbtn">Send Photo [URL]</button>
-        <br>
-        <input type="file" accept="image/*" name="" class="btn" id="local_photo">
-        <button onclick="send_local_photo()" class="btn lpb" id="send_local_photo">Send Photo</button>
-        <br>
-        <button class="btn proceed" id="advance_option_btn" onclick="show_advance_option()">Show Advance Option's</button>
-        <div id="group_btn" style="display: none;">
-            <button onclick="get_chatinfo()" class="btn proceed" id="proceedbtn">Get Chat/Group/Channel Info</button>
-            <button onclick="get_admin()" class="btn proceed" id="proceedbtn">Get Group/Channel Admin's</button>
-            <button onclick="get_member()" class="btn proceed" id="proceedbtn">Get Connected Member's</button>
-            <button onclick="get_memberinfo()" class="btn proceed" id="proceedbtn" title="UserID Required">Get Info Specific Member</button>
-            <br>
-            <button onclick="leave_chat()" class="btn proceed" id="proceedbtn">Leave Chat</button>
-        </div>
-        <br>
-        <textarea name="" id="server_update_response" class="output_area" cols="30" rows="10" placeholder="Log_Area/Get_Update/Group_Info" readonly disabled></textarea>
-        <br><br>
-        <button onclick="get_bot_info()" class="btn proceed" id="proceedbtn">Get BOT Info</button>
-        <button onclick="get_update()" class="btn proceed" id="proceedbtn">Get Overall Update</button>
+    <div class="title">
+        <img class="logo" src="./favicon.png" alt="">
+        <h1>telegram-bot-playground v3 <span class="d_name">Developed by <a href="">@bishalqx980</a></span></h1>
     </div>
-    <hr>
-    <p>Copyright <span id="year"></span> | Developed by <a href="https://bishalqx980.github.io/bishalqx980">@bishalqx980</a></p>
+    <br><br>
+    <div class="window">
+        <div class="window-header">
+            <div class="window-buttons"></div>
+        </div>
+        <div class="main">
+            <p>$ <span id="res">-response</span></p>
+            <input class="input" id="bot_api" type="text" placeholder="Bot Token">
+            <button class="btn" onclick="attach()">Attach</button>
+            <br><br>
+            <hr><br>
+            <div>
+                <input class="input chat_id" id="chat_id" type="text" placeholder="ChatID/UserID">
+                <button class="btn" onclick="save_value()">Save Value's</button>
+                <br>
+                <h2>formating...</h2>
+                <button class="btn" onclick="bold_font()"><b>bold</b></button>
+                <button class="btn" onclick="italic_font()"><i>italic</i></button>
+                <button class="btn" onclick="underline_font()"><u>underline</u></button>
+                <button class="btn" onclick="strikethrough_font()"><strike>striketrough</strike></button>
+                <button class="btn" onclick="monospace_font()">monospace</button>
+                <button class="btn" onclick="spoiler_font()">spoiler</button>
+                <button class="btn" onclick="createlink_font()">createlink</button>
+                <br><br>
+                <textarea class="textarea" id="message" name="" id="" oninput="check_length()" placeholder="Message box - type your message here or paste photo (url) here..."></textarea>
+                <br>
+                <button class="btn" id="proceedbtn" onclick="sendmsg()">Send Message</button>
+                <button class="btn" id="proceedbtn" onclick="sendphoto()">Send Photo (url)</button>
+                <button class="btn"><input type="file" accept="image/*" name="" id="local_photo"></button>
+                <button class="btn" id="send_local_photo" onclick="send_local_photo()">Send Photo</button>
+                <br><hr>
+                <button class="btn" id="advance_option_btn" onclick="show_advance_option()">⇓ Advance Option's ⇓</button>
+                <br>
+                <div id="group_btn" style="display: none;">
+                    <button class="btn" id="proceedbtn" onclick="get_chatinfo()">👀 Chat info</button>
+                    <button class="btn" id="proceedbtn" onclick="get_admin()">👀 Group/Channel admins</button>
+                    <button class="btn" id="proceedbtn" onclick="get_member()">👀 Chat member's</button>
+                    <button class="btn" id="proceedbtn" onclick="get_memberinfo()">👀 Chat member info</button>
+                    <button class="btn" id="proceedbtn" onclick="leave_chat()">❗ Leave Group/channel</button>
+                </div>
+                <br>
+                <textarea class="textarea cursor_info" name="" id="server_update_response" readonly disabled placeholder="♻ log box..." title="can't write anything here. log box !!"></textarea>
+                <br>
+                <button class="btn" id="proceedbtn" onclick="get_bot_info()">ℹ bot info</button>
+                <button class="btn" id="proceedbtn" onclick="get_update()">🧾 overall update</button>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="credit">
+        <p><u>Copyright</u>: <span id="year"></span> 💻 Developed by <a href="https://bishalqx980.github.io/bishalqx980">@bishalqx980</a></p>
+    </div>
 </body>
 </html>
