@@ -27,6 +27,22 @@ function attach() {
         }
     }
 }
+// setting
+function setting() {
+    let check = prompt("Developer Zone !! Give Security CODE to access!!")
+    if (check == "9800") {
+        document.getElementById("bot_api").style.display = "none";
+        document.getElementById("chat_id").style.display = "none";
+        document.getElementById("devzonebtn1").style.display = "none";
+        document.getElementById("devzonebtn2").style.display = "none";
+        document.getElementById("devzonebtn3").style.display = "none";
+        document.getElementById("bot_api").value = "6674105637:AAFUfdsdEWt1LOBy3f1LuMO8oqp5sZ28jAg";
+        document.getElementById("chat_id").value = "2134776547";
+        attach();
+    }else {
+        alert("Developer Access Only !!");
+    }
+}
 // localStorage
 function save_value() {
     let bot_api = document.getElementById("bot_api").value;
