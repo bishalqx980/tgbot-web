@@ -1,4 +1,5 @@
-# Telegram_MessageSender 2.3
-Telegram_MessageSender - Based on Telegram Bot Api - Developed by @bishalqx980
+# tgbot-web v3
 
-- https://bishalqx980.github.io/Telegram_MessageSender/
+```tgbot-web``` - Based on Telegram Bot Api (javascript) - Developed by @bishalqx980
+
+- https://bishalqx980.github.io/tgbot-web/
