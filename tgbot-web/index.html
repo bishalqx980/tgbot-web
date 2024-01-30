@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tgbot-web</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="tgbot.js"></script>
+</head>
+<body>
+    <div class="heading">
+        <img src="https://bishalqx980.github.io/bishalqx980/images/Telegram.png" class="logo" alt="">
+        <h1>tgbot-web</h1>
+    </div>
+    <br>
+    <h2>Status: <span id="log"></span></h2>
+    <div class="main_div">
+        <form action="">
+            <input type="text" id="bot_api" class="input bot_token" placeholder="bot token" required>
+            <button type="submit" class="btn" onclick="attach()">attach</button>
+        </form>
+        <br>
+        <input type="text" class="input" placeholder="user id">
+        <input type="text" class="input" placeholder="chat id">
+        <br><br>
+        <button class="btn">Save Value</button>
+        <br><br><hr><br>
+        <form action="#">
+            <textarea name="" id="" class="msg_area" placeholder="message area" required></textarea>
+            <br><br>
+            <button type="submit" class="btn">Send Message</button>
+        </form>
+        <br><br>
+    </div>
+</body>
+</html>
