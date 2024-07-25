@@ -1,60 +1,55 @@
 function preload() {
     setInterval(() => {
-        date_now = new Date()
-        hour = date_now.getHours()
-        day_night = "am"
+        var date_now = new Date();
+        var hour = date_now.getHours();
+        var day_night = "am";
         if (hour > 12) {
-            hour = hour - 12
-            day_night = "pm"
+            var hour = hour - 12;
+            var day_night = "pm";
         }
-        min = date_now.getMinutes()
-        sec = date_now.getSeconds()
+        var min = date_now.getMinutes();
+        var sec = date_now.getSeconds();
 
-        document.getElementById("clock").innerHTML = hour + ":" + min + ":" + sec + " " + day_night 
+        document.getElementById("clock").innerHTML = hour + ":" + min + ":" + sec + " " + day_night;
     }, 1000);
 
-    document.getElementById("year").innerHTML = new Date().getFullYear()
+    document.getElementById("year").innerHTML = new Date().getFullYear();
 
-    document.getElementById("bot_token").value = localStorage.getItem("bot_token")
-    document.getElementById("chat_id").value = localStorage.getItem("chat_id")
+    document.getElementById("bot_token").value = localStorage.getItem("bot_token");
+    document.getElementById("chat_id").value = localStorage.getItem("chat_id");
 
-    console.log("tgbot-web v4.0 alpha developed by @bishalqx980 || https://bishalqx980.github.io/bishalqx980/");
-
-
-
-
-    send_req()
+    var welcome_msg = "tgbot-web v4.0 alpha developed by @bishalqx980 || https://bishalqx980.github.io/bishalqx980/";
+    console.log(welcome_msg);
+    loadmsg(welcome_msg);
+    getBot();
 }
 
-function loadmsg(msg, timeout=5000) {
-    document.getElementById("log_msg").innerHTML = msg
-    document.getElementById("log").innerHTML += msg + "\n" // log area
-    document.getElementById("floating-div").style.display = ""
-    document.getElementById("floating-div").className = "floating-div"
+function loadmsg(msg, notify=false, timeout=5000) {
+    document.getElementById("log").innerHTML += `\n>> ${msg}\n`; // log area
+    if (notify) {
+        document.getElementById("log_msg").innerHTML = ">> " + msg;
+        document.getElementById("floating-div").style.display = "";
+        document.getElementById("floating-div").className = "floating-div";
 
-    setTimeout(() => {
-        document.getElementById("floating-div").className = "floating-div collapse-floating-div"
         setTimeout(() => {
-            document.getElementById("floating-div").style.display = "none"
-        }, 1000);
-    }, timeout);
+            document.getElementById("floating-div").className = "floating-div collapse-floating-div";
+            setTimeout(() => {
+                document.getElementById("floating-div").style.display = "none";
+            }, 1000);
+        }, timeout);
+    }
 }
 
 function storeValue() {
-    bot_token = document.getElementById("bot_token").value
-    chat_id = document.getElementById("chat_id").value
+    const bot_token = document.getElementById("bot_token").value;
+    const chat_id = document.getElementById("chat_id").value;
 
-    localStorage.setItem("bot_token", bot_token)
-    localStorage.setItem("chat_id", chat_id)
+    localStorage.setItem("bot_token", bot_token);
+    localStorage.setItem("chat_id", chat_id);
 
-    loadmsg("bot token & chat id stored!")
+    loadmsg("bot token & chat id stored!", true);
 }
 
-function send_req(method) {
-    bot_token = document.getElementById("bot_token").value;
-    url = `https://api.telegram.org/bot${bot_token}/${method}`;
-
-    x = fetch(url).then()
-
-    console.log(x)
+function clearlog() {
+    document.getElementById("log").innerHTML = "// ----- LOG CLEARED ----- //";
 }

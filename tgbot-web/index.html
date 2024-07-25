@@ -7,7 +7,7 @@
     <link rel="shortcut icon" href="telegram.png" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
-    <script src="../app.js"></script> <!-- Temporary adding  -->
+    <script src="telegram.js"></script>
 </head>
 <body onload="preload()">
     <div class="title-div">
@@ -19,8 +19,8 @@
     </div>
     <div class="alpha-div">
         <div class="action-div">
-            <input type="text" class="tg-input" id="bot_token" placeholder="bot token" required>
-            <button class="btn" id="" onclick="">Get update</button>
+            <input type="text" class="tg-input" id="bot_token" placeholder="bot token">
+            <button class="btn" id="" onclick="getUpdate()">Get update</button>
             <input type="text" class="tg-input" id="chat_id" placeholder="chat id"><br>
             <button class="btn" onclick="storeValue()">Store values</button>
             <hr>
@@ -33,7 +33,8 @@
             <button class="btn" onclick="">Send photo (loaded file)</button>
         </div>
         <div class="reaction-div">
-            <textarea id="log" placeholder="log" readonly></textarea>
+            <textarea id="log" placeholder="log" readonly>// ----- LOG STARTED ----- //</textarea>
+            <button class="btn" onclick="clearlog()">Clear log</button>
         </div>
     </div>
     <div class="credit">

@@ -26,7 +26,6 @@ body {
     float: right;
     margin: 1% 1%;
     font-weight: bold;
-
 }
 
 .floating-div {
@@ -38,7 +37,8 @@ body {
     font-size: 18px;
     border-radius: 10px;
     background-color: rgb(22, 23, 26, 0.9);
-    border: solid 2px rgb(32, 33, 36);
+    /* border: solid 2px rgb(32, 33, 36); */
+    border-bottom: solid 3px rgb(255, 0, 100);
     color: rgb(180, 180, 180);
     animation: right-to-left 1s linear;
 }
@@ -65,7 +65,6 @@ body {
     }
 }
 
-
 .alpha-div {
     width: 90%;
     margin: 5% 5%;
@@ -90,7 +89,8 @@ body {
 
 .tg-input {
     background-color: transparent;
-    color: rgb(255, 255, 255);
+    color: rgb(200, 200, 200);
+    font-family: monospace;
     border: none;
     box-shadow: 0px 2px 0px rgb(3, 155, 229);
     width: 50%;
@@ -123,12 +123,13 @@ hr {
     width: 96%;
     height: 200px;
     background-color: rgb(22, 23, 26);
-    color: rgb(255, 255, 255);
+    color: rgb(200, 200, 200);
     border: solid 2px rgb(32, 33, 36);
     border-radius: 10px;
     outline: none;
     resize: vertical;
     margin: 1% 1%;
+    padding: 5px;
 }
 
 .reaction-div {
@@ -144,6 +145,7 @@ hr {
     height: 500px;
     background-color: rgb(22, 23, 26);
     color: rgb(200, 200, 200);
+    font-family: monospace;
     border: solid 2px rgb(32, 33, 36);
     border-radius: 10px;
     outline: none;
