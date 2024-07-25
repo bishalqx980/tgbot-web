@@ -3,16 +3,16 @@ function load() {
     alert("Under Development. Use with Caution ⚠...!")
     let year = new Date().getFullYear();
     document.getElementById("year").innerHTML = year;
-    let bot_api = localStorage.getItem("bot_api")
+    let bot_token = localStorage.getItem("bot_token")
     let chat_id = localStorage.getItem("chat_id")
-    document.getElementById("bot_api").value = bot_api;
+    document.getElementById("bot_token").value = bot_token;
     document.getElementById("chat_id").value = chat_id;
     console.log("telegram-bot-playground v3 by @bishalqx980 || https://bishalqx980.github.io/bishalqx980/");
 }
 // attach the bot
 function attach() {
-    let bot_api = document.getElementById("bot_api").value;
-    let url = `https://api.telegram.org/bot${bot_api}/getMe`;
+    let bot_token = document.getElementById("bot_token").value;
+    let url = `https://api.telegram.org/bot${bot_token}/getMe`;
     
     let api = new XMLHttpRequest();
     api.open("GET", url, true);
@@ -31,12 +31,12 @@ function attach() {
 function setting() {
     let check = prompt("Developer Zone !! Give Security CODE to access!!")
     if (check == "9800") {
-        document.getElementById("bot_api").style.display = "none";
+        document.getElementById("bot_token").style.display = "none";
         document.getElementById("chat_id").style.display = "none";
         document.getElementById("devzonebtn1").style.display = "none";
         document.getElementById("devzonebtn2").style.display = "none";
         document.getElementById("devzonebtn3").style.display = "none";
-        document.getElementById("bot_api").value = "6674105637:AAFUfdsdEWt1LOBy3f1LuMO8oqp5sZ28jAg";
+        document.getElementById("bot_token").value = "6674105637:AAFUfdsdEWt1LOBy3f1LuMO8oqp5sZ28jAg";
         document.getElementById("chat_id").value = "2134776547";
         attach();
     }else {
@@ -45,9 +45,9 @@ function setting() {
 }
 // localStorage
 function save_value() {
-    let bot_api = document.getElementById("bot_api").value;
+    let bot_token = document.getElementById("bot_token").value;
     let chat_id = document.getElementById("chat_id").value;        
-    localStorage.setItem("bot_api", bot_api)
+    localStorage.setItem("bot_token", bot_token)
     localStorage.setItem("chat_id", chat_id)
     document.getElementById("res").innerHTML = "value's saved successfully!"
 }
@@ -64,9 +64,9 @@ function show_advance_option() {
 }
 // Special Method's
 function get_chatinfo() {
-    let bot_api = document.getElementById("bot_api").value;
+    let bot_token = document.getElementById("bot_token").value;
     let chat_id = document.getElementById("chat_id").value;
-    let url = `https://api.telegram.org/bot${bot_api}/getChat?chat_id=${chat_id}`;
+    let url = `https://api.telegram.org/bot${bot_token}/getChat?chat_id=${chat_id}`;
 
     let api = new XMLHttpRequest();
     api.open("GET", url, true);
@@ -92,9 +92,9 @@ function get_chatinfo() {
     }
 }
 function get_admin() {
-    let bot_api = document.getElementById("bot_api").value;
+    let bot_token = document.getElementById("bot_token").value;
     let chat_id = document.getElementById("chat_id").value;
-    let url = `https://api.telegram.org/bot${bot_api}/getChatAdministrators?chat_id=${chat_id}`;
+    let url = `https://api.telegram.org/bot${bot_token}/getChatAdministrators?chat_id=${chat_id}`;
 
     let api = new XMLHttpRequest();
     api.open("GET", url, true);
@@ -120,9 +120,9 @@ function get_admin() {
     }
 }
 function get_member() {
-    let bot_api = document.getElementById("bot_api").value;
+    let bot_token = document.getElementById("bot_token").value;
     let chat_id = document.getElementById("chat_id").value;
-    let url = `https://api.telegram.org/bot${bot_api}/getChatMemberCount?chat_id=${chat_id}`;
+    let url = `https://api.telegram.org/bot${bot_token}/getChatMemberCount?chat_id=${chat_id}`;
 
     let api = new XMLHttpRequest();
     api.open("GET", url, true);
@@ -148,10 +148,10 @@ function get_member() {
     }
 }
 function get_memberinfo() {
-    let bot_api = document.getElementById("bot_api").value;
+    let bot_token = document.getElementById("bot_token").value;
     let chat_id = document.getElementById("chat_id").value;
     let user_id = document.getElementById("user_id").value;
-    let url = `https://api.telegram.org/bot${bot_api}/getChatMember?chat_id=${chat_id}&user_id=${user_id}`;
+    let url = `https://api.telegram.org/bot${bot_token}/getChatMember?chat_id=${chat_id}&user_id=${user_id}`;
 
     let api = new XMLHttpRequest();
     api.open("GET", url, true);
@@ -186,9 +186,9 @@ function leave_chat() {
     }
 }
 function leave_chat_confirm() {
-    let bot_api = document.getElementById("bot_api").value;
+    let bot_token = document.getElementById("bot_token").value;
     let chat_id = document.getElementById("chat_id").value;
-    let url = `https://api.telegram.org/bot${bot_api}/leaveChat?chat_id=${chat_id}`;
+    let url = `https://api.telegram.org/bot${bot_token}/leaveChat?chat_id=${chat_id}`;
 
     let api = new XMLHttpRequest();
     api.open("GET", url, true);
@@ -215,10 +215,10 @@ function leave_chat_confirm() {
 }
 // sendMessage
 function sendmsg() {
-    let bot_api = document.getElementById("bot_api").value;
+    let bot_token = document.getElementById("bot_token").value;
     let chat_id = document.getElementById("chat_id").value;
     let message = document.getElementById("message").value;
-    let url = `https://api.telegram.org/bot${bot_api}/sendMessage?chat_id=${chat_id}&parse_mode=HTML&text=${message}`;
+    let url = `https://api.telegram.org/bot${bot_token}/sendMessage?chat_id=${chat_id}&parse_mode=HTML&text=${message}`;
 
     let api = new XMLHttpRequest();
     api.open("GET", url, true);
@@ -245,10 +245,10 @@ function check_length() {
 }
 // sendPhoto
 function sendphoto() {
-    let bot_api = document.getElementById("bot_api").value;
+    let bot_token = document.getElementById("bot_token").value;
     let chat_id = document.getElementById("chat_id").value;
     let message = document.getElementById("message").value;
-    let url = `https://api.telegram.org/bot${bot_api}/sendPhoto?chat_id=${chat_id}&parse_mode=HTML&photo=${message}`;
+    let url = `https://api.telegram.org/bot${bot_token}/sendPhoto?chat_id=${chat_id}&parse_mode=HTML&photo=${message}`;
 
     let api = new XMLHttpRequest();
     api.open("GET", url, true);
@@ -265,7 +265,7 @@ function sendphoto() {
 }
 // Send local Photo
 function send_local_photo() {
-    let bot_api = document.getElementById("bot_api").value;
+    let bot_token = document.getElementById("bot_token").value;
     let chat_id = document.getElementById("chat_id").value;
     let res = document.getElementById("res");
 
@@ -275,7 +275,7 @@ function send_local_photo() {
     let file = fileInput.files[0];
     let formData = new FormData();
     formData.append("photo", file, file.name);
-    axios.post(`https://api.telegram.org/bot${bot_api}/sendPhoto?chat_id=${chat_id}`, formData, {
+    axios.post(`https://api.telegram.org/bot${bot_token}/sendPhoto?chat_id=${chat_id}`, formData, {
         headers: {
         'Content-Type': 'multipart/form-data'
         }
@@ -289,8 +289,8 @@ function send_local_photo() {
 }
 // get_bot_info
 function get_bot_info() {
-    let bot_api = document.getElementById("bot_api").value;
-    let url = `https://api.telegram.org/bot${bot_api}/getMe`;
+    let bot_token = document.getElementById("bot_token").value;
+    let url = `https://api.telegram.org/bot${bot_token}/getMe`;
     
     let api = new XMLHttpRequest();
     api.open("GET", url, true);
@@ -315,8 +315,8 @@ function get_bot_info() {
 } 
 // getUpdates
 function get_update() {
-    let bot_api = document.getElementById("bot_api").value;
-    let url = `https://api.telegram.org/bot${bot_api}/getUpdates`;
+    let bot_token = document.getElementById("bot_token").value;
+    let url = `https://api.telegram.org/bot${bot_token}/getUpdates`;
   
     let api = new XMLHttpRequest();
     api.open("GET", url, true);

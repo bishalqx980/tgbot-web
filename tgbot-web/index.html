@@ -7,6 +7,7 @@
     <link rel="shortcut icon" href="telegram.png" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
+    <script src="../app.js"></script> <!-- Temporary adding  -->
 </head>
 <body onload="preload()">
     <div class="title-div">
@@ -18,13 +19,13 @@
     </div>
     <div class="alpha-div">
         <div class="action-div">
-            <input type="text" class="tg-input" id="bot_token" placeholder="bot token">
+            <input type="text" class="tg-input" id="bot_token" placeholder="bot token" required>
             <button class="btn" id="" onclick="">Get update</button>
             <input type="text" class="tg-input" id="chat_id" placeholder="chat id"><br>
             <button class="btn" onclick="storeValue()">Store values</button>
             <hr>
-            <textarea id="message_box" placeholder="message area"></textarea>
-            <button class="btn" onclick="">Send message</button>
+            <textarea id="message" placeholder="your message"></textarea>
+            <button class="btn" onclick="sendmsg()">Send message</button>
             <button class="btn" onclick="">Send photo (url)</button>
             <br>
             <input type="file" class="btn" id="">
