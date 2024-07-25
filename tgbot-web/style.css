@@ -1,113 +1,191 @@
-body  {
-    width: 95%;
+body {
+    width: 100%;
     margin: auto;
-    padding: 1%;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-style: italic;
+    background-color: rgb(22, 23, 26);
+    color: rgb(255, 255, 255);
+    font-family: sans-serif;
 }
 
-hr {
-    width: 98%;
-    opacity: 50%;
-    margin-left: 0;
+.title-div {
+    width: 90%;
+    margin-top: 1%;
+    margin-left: 5%;
+    margin-bottom: 1%;
+    margin-right: 5%;
+    border: solid 2px rgb(0, 180, 255);
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgb(0, 180, 255);
+    background-color: rgb(3, 155, 229);
 }
 
-.heading {
-    top: 0;
-    position: sticky;
-    background-color: rgb(255, 255, 255);
-    box-shadow: 0px 2px 0px rgb(0, 160, 255);
-    display: flex;
-    align-items: center;
+.title-logo {
+    width: 256px;
 }
 
-.headingbtn {
-    right: 0%;
-    position: absolute;
+#clock {
+    float: right;
+    margin: 1% 1%;
+    font-weight: bold;
+
 }
 
-.logo {
-    width: 60px;
-    margin-right: 1%;
-}
-
-.main_div {
+.floating-div {
+    width: 300px;
+    right: 1%;
+    top: 3%;
+    position: fixed;
     padding: 10px;
-    box-shadow: 0px 0px 5px rgb(220, 220, 220);
-    border-radius: 5px;
+    font-size: 18px;
+    border-radius: 10px;
+    background-color: rgb(22, 23, 26, 0.9);
+    border: solid 2px rgb(32, 33, 36);
+    color: rgb(180, 180, 180);
+    animation: right-to-left 1s linear;
+}
+
+@keyframes right-to-left {
+    from {
+        right: -50%;
+    }
+    to {
+        right: 1%;
+    }
+}
+
+.collapse-floating-div {
+    animation: left-to-right 1s linear;
+}
+
+@keyframes left-to-right {
+    from {
+        right: 1%;
+    }
+    to {
+        right: -50%;
+    }
+}
+
+
+.alpha-div {
+    width: 90%;
+    margin: 5% 5%;
+    margin-top: 1%;
+    margin-left: 5%;
+    margin-bottom: 1%;
+    margin-right: 5%;
+    border: solid 2px rgb(32, 33, 36);
+    border-radius: 10px;
+    box-shadow: 3px 3px 5px rgb(0, 0, 0);
+    background-color: rgb(53, 54, 58);
     display: flex;
 }
 
-.m_left {
+.action-div {
     flex: 50%;
+    border: solid 2px rgb(22, 23, 26);
+    border-radius: 10px;
+    background-color: rgb(32, 33, 36);
+    margin: 1% 1%;
 }
 
-.m_right {
-    flex: 50%;
-}
-
-.input {
-    padding: 5px;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-style: italic;
+.tg-input {
+    background-color: transparent;
+    color: rgb(255, 255, 255);
     border: none;
-    box-shadow: 0px 2px 0px rgb(0, 160, 255);
+    box-shadow: 0px 2px 0px rgb(3, 155, 229);
+    width: 50%;
     outline: none;
-}
-
-.bot_token {
-    width: 98%;
-    max-width: 300px;
-}
-
-.chat_id {
-    width: 98%;
-    max-width: 80px;
+    margin: 1% 1%;
 }
 
 .btn {
-    padding: 5px;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-style: italic;
-    border: none;
+    background-color: rgb(3, 155, 229);
+    color: rgb(255, 255, 255);
+    border: solid 2px rgb(0, 180, 255);
     border-radius: 5px;
-    box-shadow: 2px 2px 2px rgb(220, 220, 220);
-    margin-top: 1%;
-    margin-bottom: 1%;
-    margin-left: 1%;
-    margin-right: 1%;
+    font-size: 14px;
+    margin: 2% 2%;
+    cursor: pointer;
+    transition: 300ms;
+    padding: 5px;
 }
 
 .btn:hover {
-    box-shadow: 2px 2px 2px rgb(0, 160, 255);
-    cursor: pointer;
-    transition-duration: 300ms;
+    box-shadow: 0px 0px 10px rgb(0, 180, 255);
 }
 
-.msg_area {
-    width: 98%;
-    max-width: 380px;
-    height: 180px;
-    padding: 5px;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-style: italic;
-    border: solid 1px rgb(220, 220, 220);
-    box-shadow: 0px 2px 0px rgb(0, 160, 255);
+hr {
+    width: 80%;
+    opacity: 25%;
+}
+
+#message_box {
+    width: 96%;
+    height: 200px;
+    background-color: rgb(22, 23, 26);
+    color: rgb(255, 255, 255);
+    border: solid 2px rgb(32, 33, 36);
+    border-radius: 10px;
     outline: none;
+    resize: vertical;
+    margin: 1% 1%;
 }
 
-.bot_log {
-    width: 98%;
-    max-width: 98%;
-    height: 98%;
-    min-height: 180px;
-    box-shadow: 0px 0px 0px;
-    resize: none;
-    cursor: no-drop;
+.reaction-div {
+    flex: 50%;
+    border: solid 2px rgb(22, 23, 26);
+    border-radius: 10px;
+    background-color: rgb(32, 33, 36);
+    margin: 1% 1%;
 }
 
-@media (max-width: 820px) {
-    .main_div {
-        display: block;
+#log {
+    width: 96%;
+    height: 500px;
+    background-color: rgb(22, 23, 26);
+    color: rgb(200, 200, 200);
+    border: solid 2px rgb(32, 33, 36);
+    border-radius: 10px;
+    outline: none;
+    resize: vertical;
+    margin: 1% 1%;
+    cursor: help;
+}
+
+.credit {
+    width: 90%;
+    margin-top: 1%;
+    margin-left: 5%;
+    margin-bottom: 1%;
+    margin-right: 5%;
+    border: solid 2px rgb(22, 23, 26);
+    border-radius: 10px;
+    box-shadow: 3px 3px 5px rgb(0, 0, 0);
+    background-color: rgb(32, 33, 36);
+    color: rgb(180, 180, 180);
+    font-family: monospace;
+    text-align: center;
+}
+
+.my-name {
+    color: rgb(0, 180, 255);
+    animation: kameleon 10s infinite;
+}
+
+@keyframes kameleon {
+    0% {
+        color: rgb(0, 180, 255);
+    }
+    25% {
+        color: rgb(255, 0, 0);
+    }
+    50% {
+        color: rgb(153, 255, 0);
+    }
+    75% {
+        color: rgb(0, 255, 242);
+    }
+    100% {
+        color: rgb(3, 155, 229);
     }
 }

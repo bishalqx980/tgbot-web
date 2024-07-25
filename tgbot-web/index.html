@@ -2,42 +2,41 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>tgbot-web</title>
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <title>tgbot-web v4.0 alpha</title>
+    <link rel="shortcut icon" href="telegram.png" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
-    <script src="utils.js"></script>
-    <script src="tgbot.js"></script>
+    <script src="script.js"></script>
 </head>
-<body onload="load()">
-    <div class="heading">
-        <img src="https://bishalqx980.github.io/bishalqx980/images/Telegram.png" class="logo" alt="">
-        <h1>tgbot-web</h1>
-        <button class="btn headingbtn">theme</button>
+<body onload="preload()">
+    <div class="title-div">
+        <img src="square.png" class="title-logo">
+        <span id="clock">0:0:0</span>
     </div>
-    <h3>Time: <span id="clock"></span></h3>
-    <h2>Status: <span id="log"></span></h2>
-    <div class="main_div">
-        <div class="m_left">
-            <form action="#">
-                <input type="text" id="bot_token" class="input bot_token" placeholder="bot token" required>
-                <button class="btn" onclick="attach()">attach</button>
-            </form>
+    <div id="floating-div" style="display: none;">
+        <p id="log_msg">???</p>
+    </div>
+    <div class="alpha-div">
+        <div class="action-div">
+            <input type="text" class="tg-input" id="bot_token" placeholder="bot token">
+            <button class="btn" id="" onclick="">Get update</button>
+            <input type="text" class="tg-input" id="chat_id" placeholder="chat id"><br>
+            <button class="btn" onclick="storeValue()">Store values</button>
+            <hr>
+            <textarea id="message_box" placeholder="message area"></textarea>
+            <button class="btn" onclick="">Send message</button>
+            <button class="btn" onclick="">Send photo (url)</button>
             <br>
-            <input type="text" id="chat_id" class="input chat_id" placeholder="chat id">
-            <button class="btn" onclick="get_chat_info()">get info</button>
-            <br><br>
-            <button class="btn" onclick="save_value()">Save Value</button>
-            <br><br><hr><br>
-            <form action="#">
-                <textarea name="" id="msg" class="msg_area" placeholder="message area" oninput="msg_check()" required></textarea>
-                <br><br>
-                <button class="btn" onclick="sendmsg()">Send Message</button>
-            </form>
-            <br><br>
+            <input type="file" class="btn" id="">
+            <br>
+            <button class="btn" onclick="">Send photo (loaded file)</button>
         </div>
-        <div class="m_right">
-            <textarea name="" id="bot_log" class="msg_area bot_log" placeholder="Log Area" readonly></textarea>
+        <div class="reaction-div">
+            <textarea id="log" placeholder="log" readonly></textarea>
         </div>
+    </div>
+    <div class="credit">
+        <p>Copyright: <span id="year">1947</span> 💻 Developed by <a class="my-name" href="https://bishalqx980.github.io/bishalqx980">@bishalqx980</a></p>
     </div>
 </body>
 </html>
