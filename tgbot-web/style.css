@@ -65,6 +65,22 @@ body {
     }
 }
 
+.status {
+    width: 90%;
+    margin: 5% 5%;
+    margin-top: 1%;
+    margin-left: 5%;
+    margin-bottom: 1%;
+    margin-right: 5%;
+    border-left: solid 2px rgb(0, 180, 255);
+    padding: 2px;
+    font-family: monospace;
+}
+
+#status {
+    margin-left: 1%;
+}
+
 .alpha-div {
     width: 90%;
     margin: 5% 5%;

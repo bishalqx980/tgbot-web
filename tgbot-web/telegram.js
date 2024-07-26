@@ -1,7 +1,7 @@
 async function send_req(method, chat_id=null, message=null) {
     const bot_token = document.getElementById("bot_token").value;
     if (!bot_token) {
-        loadmsg("bot token not provided!", true);
+        loadMsg("bot token not provided!", true);
         return
     }
 
@@ -10,7 +10,10 @@ async function send_req(method, chat_id=null, message=null) {
     } else {
         var api_url = `https://api.telegram.org/bot${bot_token}/${method}`;
     }
-
+    
+    statusMsg("please wait, sending request...");
+    loadMsg("please wait, sending request...");
+    
     try {
         var res = await fetch(api_url);
         if (!res.ok) {
@@ -32,15 +35,18 @@ async function send_req(method, chat_id=null, message=null) {
                 msg = "An error occured!";
             }
 
-            loadmsg(msg, true);
+            statusMsg(msg);
+            loadMsg(msg, true);
             return
         }
 
+        statusMsg("Check log...");
         var data = await res.json();
         return data; // returns object
     } catch (error) {
         console.error(error);
-        loadmsg(error);
+        statusMsg(error);
+        loadMsg(error);
     }
 }
 
@@ -62,7 +68,7 @@ function getBot() {
             `• supports inline queries: ${res.supports_inline_queries}\n` +
             `• can connect to business: ${res.can_connect_to_business}\n` +
             "----- END -----";
-            loadmsg(msg);
+            loadMsg(msg);
         }
     )
 }
@@ -78,7 +84,7 @@ function getUpdate() {
             var res = res.result;
             var msg = res;
             console.log(res)
-            loadmsg(msg);
+            loadMsg(msg);
 
         }
     )
@@ -89,10 +95,12 @@ function sendmsg() {
     const message = document.getElementById("message").value;
 
     if (!chat_id) {
-        loadmsg("chat id not provided!", true);
+        statusMsg("chat id not provided!");
+        loadMsg("chat id not provided!", true);
         return
     }else if (!message) {
-        loadmsg("message not provided!", true);
+        statusMsg("message not provided!");
+        loadMsg("message not provided!", true);
         return
     }
 
@@ -103,7 +111,12 @@ function sendmsg() {
                 return
             }
 
-            loadmsg(`message_id: ${res.result.message_id} >> Message sent!`, true);
+            var res = res.result;
+            console.log(res)
+            msg = `${res}`
+
+            loadMsg(`>> Message sent!`, true);
+            loadMsg();
         }
     )
 }

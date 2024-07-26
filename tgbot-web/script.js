@@ -20,24 +20,33 @@ function preload() {
 
     var welcome_msg = "tgbot-web v4.0 alpha developed by @bishalqx980 || https://bishalqx980.github.io/bishalqx980/";
     console.log(welcome_msg);
-    loadmsg(welcome_msg);
+    loadMsg(welcome_msg);
     getBot();
 }
 
-function loadmsg(msg, notify=false, timeout=5000) {
+function loadMsg(msg, notify=false, timeout=5000) {
     document.getElementById("log").innerHTML += `\n>> ${msg}\n`; // log area
+    var floatingDiv = document.getElementById("floating-div");
     if (notify) {
         document.getElementById("log_msg").innerHTML = ">> " + msg;
-        document.getElementById("floating-div").style.display = "";
-        document.getElementById("floating-div").className = "floating-div";
+        floatingDiv.style.display = "";
+        floatingDiv.className = "floating-div";
 
         setTimeout(() => {
-            document.getElementById("floating-div").className = "floating-div collapse-floating-div";
+            floatingDiv.className = "floating-div collapse-floating-div";
             setTimeout(() => {
-                document.getElementById("floating-div").style.display = "none";
+                floatingDiv.style.display = "none";
             }, 1000);
         }, timeout);
     }
+}
+
+function statusMsg(msg) {
+    var status = document.getElementById("status");
+    status.innerHTML = `>> ${msg}`;
+    setTimeout(() => {
+        status.innerHTML = "???";
+    }, 10000); // 10sec
 }
 
 function storeValue() {
@@ -47,9 +56,11 @@ function storeValue() {
     localStorage.setItem("bot_token", bot_token);
     localStorage.setItem("chat_id", chat_id);
 
-    loadmsg("bot token & chat id stored!", true);
+    statusMsg("bot token & chat id stored!");
+    loadMsg("bot token & chat id stored!", true);
 }
 
 function clearlog() {
+    document.getElementById("status").innerHTML = "???";
     document.getElementById("log").innerHTML = "// ----- LOG CLEARED ----- //";
 }
