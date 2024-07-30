@@ -15,17 +15,24 @@ function preload() {
 
     document.getElementById("year").innerHTML = new Date().getFullYear();
 
-    document.getElementById("bot_token").value = localStorage.getItem("bot_token");
+    var bot_token = document.getElementById("bot_token").value = localStorage.getItem("bot_token");
     document.getElementById("chat_id").value = localStorage.getItem("chat_id");
 
     var welcome_msg = "tgbot-web v4.0 alpha developed by @bishalqx980 || https://bishalqx980.github.io/bishalqx980/";
     console.log(welcome_msg);
     loadMsg(welcome_msg);
-    getBot();
+    if (bot_token) {
+        getBot();
+    }
+    // BETA VERSION
+    alert("This is a beta release! (Need to fix a lot of things)")
 }
 
 function loadMsg(msg, notify=false, timeout=5000) {
-    document.getElementById("log").innerHTML += `\n>> ${msg}\n`; // log area
+    const log = document.getElementById("log");
+    log.innerHTML += `\n>> ${msg}\n`; // log area
+    log.scrollTop = log.scrollHeight
+
     var floatingDiv = document.getElementById("floating-div");
     if (notify) {
         document.getElementById("log_msg").innerHTML = ">> " + msg;

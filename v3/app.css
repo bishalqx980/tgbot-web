@@ -1,0 +1,126 @@
+body {
+    width: 96%;
+    margin: auto;
+    padding: 20px;
+    background-color: rgb(19, 21, 22);
+    color: rgb(172, 164, 154);
+    font-family: monospace;
+}
+a {
+    color: rgb(0, 180, 255);
+}
+hr {
+    opacity: 25%;
+}
+.title {
+    width: 720px;
+    max-width: 50%;
+    margin: auto;
+    display: flex;
+    justify-content: baseline;
+    gap: 20px;
+}
+.logo {
+    width: 64px;
+    height: 64px;
+}
+.d_name {
+    font-size: 12px;
+}
+.window {
+    width: 720px;
+    max-width: 50%;
+    margin: auto;
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+}
+.window-header {
+    height: 35px;
+    background: rgb(44, 47, 49);
+    position: relative;
+}
+.window-buttons {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    margin-top: -5px;
+    width: 10px;
+    height: 10px;
+    background: Crimson;
+    border-radius: 50%;
+    box-shadow: 15px 0 0 Orange, 30px 0 0 LimeGreen;
+}
+.main {
+    text-align: center;
+    padding: 20px;
+    background-color: rgb(27, 29, 30);
+}
+.input {
+    width: 400px;
+    max-width: 50%;
+    padding: 5px;
+    border: solid 2px rgb(44, 47, 49);
+    border-radius: 5px;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+    outline: none;
+    font-family: monospace;
+}
+.input:hover {
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+}
+.btn {
+    background-color: rgb(27, 29, 30);
+    color: rgb(172, 164, 154);
+    border: solid 2px rgb(44, 47, 49);
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    padding: 5px;
+    font-family: monospace;
+    cursor: pointer;
+    transition: 150ms;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    margin-left: 2px;
+    margin-right: 2px;
+}
+.btn:hover {
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+}
+.chat_id {
+    width: 200px;
+}
+.textarea {
+    width: 720px;
+    max-width: 80%;
+    height: 200px;
+    padding: 5px;
+    background-color: rgb(19, 21, 22);
+    color: rgb(172, 164, 154);
+    border: solid 2px rgb(44, 47, 49);
+    border-radius: 5px;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+    outline: none;
+    font-family: monospace;
+    font-style: italic;
+}
+.cursor_info {
+    cursor: not-allowed;
+}
+.credit {
+    width: 720px;
+    max-width: 50%;
+    margin: auto;
+    text-align: center;
+    background-color: rgb(27, 29, 30);
+    padding: 10px;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+}
+::-webkit-scrollbar {
+    background-color: rgb(44, 47, 49);
+    width: 10px;
+}
+::-webkit-scrollbar-thumb {
+    background-color: rgb(27, 29, 30);
+}

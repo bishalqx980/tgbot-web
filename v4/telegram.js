@@ -82,9 +82,17 @@ function getUpdate() {
             }
 
             var res = res.result;
-            var msg = res;
-            console.log(res)
-            loadMsg(msg);
+
+            for (var i in res) {
+                loadMsg(JSON.stringify(res[i], null, 4));
+            }
+
+            // console.log(x)
+
+            // loadMsg(JSON.stringify(res[-1].message))
+            // var msg = res;
+            // console.log(res)
+            // loadMsg(msg);
 
         }
     )
