@@ -8,7 +8,46 @@
     <script src="script.js"></script>
     <title>tgbot-web</title>
 </head>
-<body onload="load()">
-    <h1>[Under Development] Coming Soon...</h1>
+<body>
+    <div class="maindiv">
+        <h1 class="title">Telegram Bot API PlayGround <sup>beta</sup></h1>
+
+        <!-- Bot Adding Section -->
+        <div class="section">
+            <h2>Add New Bot</h2>
+            <p>Bot Token:</p>
+            <input type="text" class="inputArea" id="botToken" placeholder="Enter your bot token (e.g., 123456789:ABC-DEF1234ghIkl-zyx57W2v1u123ew11)">
+            <button class="btn" id="saveBot">Save Bot</button>
+        </div>
+        
+        <!-- Saved Bot Section -->
+        <div class="section">
+            <h2>Saved Bots</h2>
+            <div id="botList">
+                <!-- Bots will be displayed here -->
+            </div>
+        </div>
+
+        <!-- Bot interaction Section -->
+        <div id="interactionSection" class="section hidden">
+            <h2>Bot Interaction</h2>
+            <div id="selectedBotInfo"></div>
+
+            <p>Chat/User ID:</p>
+            <input type="text" id="chatID" class="inputArea" placeholder="Enter chat ID (e.g., 123456789 or @channelusername)">
+
+            <p>Message:</p>
+            <textarea id="messageText" class="inputArea" style="resize: vertical;" rows="4" placeholder="Enter your message"></textarea>
+
+            <button class="btn" id="sendMessage">Send Message</button>
+            
+            <h3>Response:</h3>
+            <div id="responseArea" class="inputArea" style="min-height: 100px;"></div>
+        </div>
+    </div>
+    
+    <div class="credit-div">
+        <p>❐ Developed & Maintained by <a href="https://bishalqx980.github.io/bishalqx980/" class="myName">@bishalqx980</a> | Copyright: <span id="copyrightYear"></span></p>
+    </div>
 </body>
 </html>

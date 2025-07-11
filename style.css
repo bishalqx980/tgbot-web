@@ -1,0 +1,133 @@
+body {
+    background-color: #f5f5f5;
+    width: 95%;
+    max-width: 1000px;
+    margin: auto;
+    padding: 20px;
+    font-family: sans-serif;
+}
+
+.maindiv {
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgb(210, 210, 210);
+    padding: 20px;
+}
+
+.title {
+    text-align: center;
+    color: rgb(0, 150, 255);
+}
+
+.section {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.inputArea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    outline-color: #ffa500;
+}
+
+.btn {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 4px;
+    background-color: rgb(0, 150, 255);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #006699;
+}
+
+.hidden {
+    display: none;
+}
+
+/* BOT CARDS */
+
+.bot-card {
+    display: inline-block;
+    width: 200px;
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    transition-duration: 300ms;
+}
+
+.bot-card:hover {
+    background-color: #f0f8ff;
+    border-color: #0088cc;
+}
+
+.bot-card.selected {
+    background-color: #e1f5fe;
+    border-color: #0088cc;
+}
+
+.bot-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+    float: left;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(0, 195, 255);
+    color: white;
+}
+
+.bot-info {
+    margin-left: 60px;
+}
+
+.bot-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.bot-username {
+    color: #666;
+    font-size: 0.9em;
+}
+
+.bot-remove {
+    margin-top: 25px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 5px;
+    font-weight: bold;
+    color: #666;
+    transition-duration: 300ms;
+    cursor: pointer;
+}
+
+.bot-remove:hover {
+    background-color: red;
+    color: white;
+}
+
+.credit-div {
+    font-style: italic;
+    font-family: serif;
+}
+
+.myName {
+    color: #0088cc;
+    font-weight: bold;
+}
