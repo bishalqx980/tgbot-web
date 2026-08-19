@@ -1,216 +1,1213 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const date = new Date();
-    const currentYear = date.getFullYear();
+const API = "https://api.telegram.org/bot";
 
-    const copyrightElement = document.getElementById("copyrightYear");
-    if (copyrightElement) {
-        copyrightElement.innerHTML = `2023 - ${currentYear}`;
+let bots = JSON.parse(
+    localStorage.getItem("telegram_bots") || "[]"
+);
+
+let activeBotId = localStorage.getItem("active_bot_id");
+
+let activeBot = null;
+let pollingTimer = null;
+let updateOffset = 0;
+let latestUser = null;
+
+const $ = id => document.getElementById(id);
+
+function saveBots() {
+    localStorage.setItem(
+        "telegram_bots",
+        JSON.stringify(bots)
+    );
+}
+
+function telegramUrl(method) {
+    return `${API}${activeBot.token}/${method}`;
+}
+
+async function telegram(method, options = {}) {
+
+    const response = await fetch(
+        telegramUrl(method),
+        options
+    );
+
+    const data = await response.json();
+
+    if (!data.ok) {
+        throw new Error(
+            data.description || "Telegram API error"
+        );
     }
 
-    // Load saved bot from localstorage
-    loadSavedBots();
+    return data.result;
+}
 
-    // Save bot token
-    document.getElementById("saveBot").addEventListener("click", async function() {
-        const botToken = document.getElementById("botToken").value.trim();
+function showModal() {
 
-        if (!botToken) {
-            alert("Please enter a bot token!");
-            return;
-        }
+    $("connectModal").classList.remove("hidden");
 
-        // Validate token format (simplified check)
-        if (!botToken.includes(":")) {
-            alert("Invalid bot token format. It should be in the format '123456789:ABC-DEF1234ghIkl-zyx57W2v1u123ew11'");
-            return;
-        }
-        
-        await saveBotToken(botToken);
-    });
+    $("botToken").value = "";
 
-    // Send Message
-    document.getElementById("sendMessage").addEventListener("click", async function() {
-        const chatID = document.getElementById("chatID").value.trim();
-        const messageText = document.getElementById("messageText").value;
-        const selectedBot = document.querySelector(".bot-card.selected");
-        
-        if (!selectedBot) {
-            alert("Please select a bot first");
-            return;
-        }
-        
-        if (!chatID) {
-            alert("Please enter a chat ID");
-            return;
-        }
-        
-        if (!messageText) {
-            alert("Please enter a message");
-            return;
-        }
+    $("connectError").classList.add("hidden");
 
-        const botToken = selectedBot.getAttribute("token");
-        await sendMessage(botToken, chatID, messageText);
-    });
+    $("botToken").focus();
+}
 
-    const botSelect = document.getElementById("botSelect");
-    if (botSelect) {
-        botSelect.addEventListener("click", function() {
-            const interactionSection = document.getElementById("interactionSection");
-            if (interactionSection) {
-                interactionSection.classList.remove("hidden");
+function hideModal() {
+    $("connectModal").classList.add("hidden");
+}
+
+function renderBots() {
+
+    const list = $("botList");
+
+    list.innerHTML = "";
+
+    if (!bots.length) {
+
+        list.innerHTML = `
+            <div class="muted">
+                No bots connected
+            </div>
+        `;
+
+        return;
+    }
+
+    bots.forEach(bot => {
+
+        const item = document.createElement("div");
+
+        item.className =
+            `bot-item ${
+                bot.id === activeBotId
+                    ? "active"
+                    : ""
+            }`;
+
+        item.innerHTML = `
+            <div class="bot-name">
+
+                <strong>
+                    ${escapeHtml(bot.name)}
+                </strong>
+
+                <small>
+                    @${escapeHtml(
+                        bot.username || "unknown"
+                    )}
+                </small>
+
+            </div>
+
+            <button
+                class="delete-bot"
+                data-id="${bot.id}"
+            >
+                ×
+            </button>
+        `;
+
+        item.addEventListener("click", event => {
+
+            if (
+                event.target.classList.contains(
+                    "delete-bot"
+                )
+            ) {
+                return;
             }
+
+            selectBot(bot.id);
         });
-    }
-});
 
-async function loadSavedBots() {
-    const botList = document.getElementById("botList");
-    botList.innerHTML = "";
-    
-    const savedBots = JSON.parse(localStorage.getItem("savedBotTokens")) || [];
-    if (savedBots.length === 0) {
-        botList.innerHTML = "<p>No bots saved yet. Add a bot using the form above.</p>";
-        return;
-    }
-    
-    savedBots.forEach(async (botToken) => {
-        await fetchBotInfo(botToken);
+        list.appendChild(item);
     });
+
+    document
+        .querySelectorAll(".delete-bot")
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                event => {
+
+                    event.stopPropagation();
+
+                    deleteBot(
+                        event.target.dataset.id
+                    );
+                }
+            );
+
+        });
 }
 
-async function saveBotToken(botToken) {
-    let savedBots = JSON.parse(localStorage.getItem("savedBotTokens")) || [];
+function selectBot(id) {
 
-    // Check if bot already exists
-    if (savedBots.some(bot => bot === botToken)) {
-        alert("This bot is already saved");
+    stopPolling();
+
+    activeBotId = id;
+
+    activeBot = bots.find(
+        bot => bot.id === id
+    );
+
+    if (!activeBot) {
+
+        showEmpty();
+
         return;
     }
 
-    // Add new bot
-    savedBots.push(botToken);
-    localStorage.setItem("savedBotTokens", JSON.stringify(savedBots));
+    localStorage.setItem(
+        "active_bot_id",
+        id
+    );
 
-    // Clear input
-    document.getElementById("botToken").value = "";
+    updateOffset = 0;
 
-    // Refresh bot list
-    await fetchBotInfo(botToken);
-}
+    latestUser = null;
 
-async function fetchBotInfo(botToken) {
-    const botList = document.getElementById("botList");
+    renderBots();
 
-    // Loading Card
-    const loadingCard = document.createElement("div");
-    loadingCard.className = "bot-card";
-    loadingCard.id = "botSelect";
-    loadingCard.setAttribute("token", botToken);
-    loadingCard.innerHTML = `
-    <div class="bot-avatar">!</div>
-    <div class="bot-info">
-        <div class="bot-name">Loading...</div>
-        <div class="bot-username">Loading...</div>
-    </div>
-    <div class="bot-remove">Remove</div>
+    $("emptyState").classList.add("hidden");
+
+    $("dashboard").classList.remove("hidden");
+
+    $("disconnectBtn").classList.remove("hidden");
+
+    $("botTitle").textContent =
+        activeBot.name;
+
+    $("botStatus").textContent =
+        `@${activeBot.username}`;
+
+    renderBotInfo();
+
+    $("messages").innerHTML = "";
+
+    $("userInfo").innerHTML = `
+        <p class="muted">
+            No user messages received yet.
+        </p>
     `;
 
-    botList.append(loadingCard);
+    startPolling();
+}
 
-    // Getting Bot info
+function showEmpty() {
+
+    activeBot = null;
+
+    $("emptyState").classList.remove(
+        "hidden"
+    );
+
+    $("dashboard").classList.add(
+        "hidden"
+    );
+
+    $("disconnectBtn").classList.add(
+        "hidden"
+    );
+
+    $("botTitle").textContent =
+        "No Bot Selected";
+
+    $("botStatus").textContent =
+        "Connect a Telegram bot to begin";
+}
+
+async function connectBot() {
+
+    const token =
+        $("botToken").value.trim();
+
+    if (!token) {
+
+        showConnectError(
+            "Enter a bot token."
+        );
+
+        return;
+    }
+
+    $("connectBtn").disabled = true;
+
+    $("connectBtn").textContent =
+        "Connecting...";
+
     try {
-        const response = await fetch(`https://api.telegram.org/bot${botToken}/getMe`);
-        if (response.ok) {
-            const data = await response.json();
-            let botInfo = data.result;
-            botInfo.error = false;
-            updateBotCard(botToken, botInfo);
-        } else {
-            updateBotCard(botToken, {
-                first_name: "Invalid Token",
-                username: "Error",
-                error: true
-            });
+
+        const response = await fetch(
+            `${API}${token}/getMe`
+        );
+
+        const data =
+            await response.json();
+
+        if (!data.ok) {
+
+            throw new Error(
+                data.description ||
+                "Invalid bot token"
+            );
         }
+
+        const bot = data.result;
+
+        const existing =
+            bots.find(
+                item =>
+                    item.token === token
+            );
+
+        if (existing) {
+
+            existing.name =
+                bot.first_name ||
+                bot.username;
+
+            existing.username =
+                bot.username;
+
+            existing.id =
+                String(bot.id);
+
+        } else {
+
+            bots.push({
+
+                id: String(bot.id),
+
+                name:
+                    bot.first_name ||
+                    bot.username,
+
+                username:
+                    bot.username,
+
+                token
+
+            });
+
+        }
+
+        saveBots();
+
+        const savedBot =
+            bots.find(
+                item =>
+                    item.token === token
+            );
+
+        hideModal();
+
+        selectBot(
+            savedBot.id
+        );
+
     } catch (error) {
-        updateBotCard(botToken, {
-            first_name: "Connection Error",
-            username: "Error",
-            error: true
-        });
+
+        showConnectError(
+            error.message
+        );
+
+    } finally {
+
+        $("connectBtn").disabled =
+            false;
+
+        $("connectBtn").textContent =
+            "Connect";
     }
 }
 
-function updateBotCard(botToken, botInfo) {
-    const botCards = document.querySelectorAll('.bot-card[token="' + botToken + '"]');
-    
-    botCards.forEach(card => {
-        if (botInfo.error) {
-            card.innerHTML = `
-                <div class="bot-avatar" style="background-color: #ffebee; color: #f44336;">!</div>
-                <div class="bot-info">
-                    <div class="bot-name">${botInfo.first_name}</div>
-                    <div class="bot-username">Invalid token</div>
-                </div>
-                <div class="bot-remove">Remove</div>
-            `;
-            card.style.opacity = "0.7";
-            card.style.cursor = "not-allowed";
-        } else {
-            // Create a unique color based on bot username for the avatar
-            const usernameHash = Array.from(botInfo.username).reduce((acc, char) => acc + char.charCodeAt(0), 0);
-            const hue = usernameHash % 360;
-            const avatarColor = `hsl(${hue}, 70%, 65%)`;
+function showConnectError(message) {
 
-            card.innerHTML = `
-                <div class="bot-avatar" style="background-color: ${avatarColor}; color: white;">${botInfo.first_name.charAt(0)}</div>
-                <div class="bot-info">
-                    <div class="bot-name">${botInfo.first_name}</div>
-                    <div class="bot-username">@${botInfo.username}</div>
-                </div>
-                <div class="bot-remove">Remove</div>
-            `;
-            
-            // Add click event to select bot
-            card.addEventListener("click", function() {
-                // Deselect all bots
-                document.querySelectorAll(".bot-card").forEach(c => c.classList.remove("selected"));
-                
-                // Select this bot
-                this.classList.add("selected");
-                
-                // Show interaction section
-                document.getElementById("interactionSection").classList.remove("hidden");
-                
-                // Update selected bot info
-                document.getElementById("selectedBotInfo").innerHTML = `
-                    <p>Selected bot: <strong>${botInfo.first_name}</strong> (@${botInfo.username})</p>
-                `;
-            });
+    $("connectError").textContent =
+        message;
+
+    $("connectError").classList.remove(
+        "hidden"
+    );
+}
+
+function deleteBot(id) {
+
+    const bot =
+        bots.find(
+            item => item.id === id
+        );
+
+    if (!bot) {
+        return;
+    }
+
+    const confirmed =
+        confirm(
+            `Remove ${bot.name}?`
+        );
+
+    if (!confirmed) {
+        return;
+    }
+
+    bots =
+        bots.filter(
+            item => item.id !== id
+        );
+
+    saveBots();
+
+    if (activeBotId === id) {
+
+        stopPolling();
+
+        activeBotId = null;
+
+        localStorage.removeItem(
+            "active_bot_id"
+        );
+
+        showEmpty();
+    }
+
+    renderBots();
+}
+
+function renderBotInfo() {
+
+    if (!activeBot) {
+        return;
+    }
+
+    $("botInfo").innerHTML = `
+
+        <div class="info-item">
+            <span>Name</span>
+            <strong>
+                ${escapeHtml(
+                    activeBot.name
+                )}
+            </strong>
+        </div>
+
+        <div class="info-item">
+            <span>Username</span>
+            <strong>
+                @${escapeHtml(
+                    activeBot.username
+                )}
+            </strong>
+        </div>
+
+        <div class="info-item">
+            <span>Bot ID</span>
+            <strong>
+                ${escapeHtml(
+                    activeBot.id
+                )}
+            </strong>
+        </div>
+
+        <div class="info-item">
+            <span>Status</span>
+            <strong>
+                Connected
+            </strong>
+        </div>
+
+    `;
+}
+
+async function sendMessage() {
+
+    const chatId =
+        $("chatId").value.trim();
+
+    const text =
+        $("messageText").value;
+
+    const parseMode =
+        $("parseMode").value;
+
+    if (!chatId || !text) {
+
+        showResult(
+            "Chat ID and message are required.",
+            true
+        );
+
+        return;
+    }
+
+    const params =
+        new URLSearchParams();
+
+    params.append(
+        "chat_id",
+        chatId
+    );
+
+    params.append(
+        "text",
+        text
+    );
+
+    if (parseMode) {
+
+        params.append(
+            "parse_mode",
+            parseMode
+        );
+    }
+
+    try {
+
+        await telegram(
+            "sendMessage",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                        "application/x-www-form-urlencoded"
+                },
+
+                body: params
+            }
+        );
+
+        showResult(
+            "Message sent successfully."
+        );
+
+        $("messageText").value = "";
+
+    } catch (error) {
+
+        showResult(
+            error.message,
+            true
+        );
+    }
+}
+
+async function sendMedia(type) {
+
+    const chatId =
+        $("chatId").value.trim();
+
+    if (!chatId) {
+
+        showResult(
+            "Enter a Chat ID / User ID first.",
+            true
+        );
+
+        return;
+    }
+
+    let fileInput;
+    let captionInput;
+    let field;
+
+    if (type === "photo") {
+
+        fileInput =
+            $("photoFile");
+
+        captionInput =
+            $("photoCaption");
+
+        field =
+            "photo";
+    }
+
+    if (type === "document") {
+
+        fileInput =
+            $("documentFile");
+
+        captionInput =
+            $("documentCaption");
+
+        field =
+            "document";
+    }
+
+    if (type === "video") {
+
+        fileInput =
+            $("videoFile");
+
+        captionInput =
+            $("videoCaption");
+
+        field =
+            "video";
+    }
+
+    const file =
+        fileInput.files[0];
+
+    if (!file) {
+
+        showResult(
+            `Select a ${type} first.`,
+            true
+        );
+
+        return;
+    }
+
+    const form =
+        new FormData();
+
+    form.append(
+        "chat_id",
+        chatId
+    );
+
+    form.append(
+        field,
+        file
+    );
+
+    if (
+        captionInput.value.trim()
+    ) {
+
+        form.append(
+            "caption",
+            captionInput.value.trim()
+        );
+    }
+
+    try {
+
+        await telegram(
+            `send${capitalize(type)}`,
+            {
+                method: "POST",
+                body: form
+            }
+        );
+
+        showResult(
+            `${capitalize(type)} sent successfully.`
+        );
+
+        fileInput.value = "";
+
+        captionInput.value = "";
+
+    } catch (error) {
+
+        showResult(
+            error.message,
+            true
+        );
+    }
+}
+
+async function getChatInfo() {
+
+    const chatId =
+        $("infoChatId").value.trim();
+
+    if (!chatId) {
+
+        $("chatInfo").textContent =
+            "Enter a chat ID.";
+
+        return;
+    }
+
+    try {
+
+        const chat =
+            await telegram(
+                "getChat",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/x-www-form-urlencoded"
+                    },
+
+                    body:
+                        new URLSearchParams({
+                            chat_id:
+                                chatId
+                        })
+                }
+            );
+
+        $("chatInfo").textContent =
+            JSON.stringify(
+                chat,
+                null,
+                2
+            );
+
+    } catch (error) {
+
+        $("chatInfo").textContent =
+            error.message;
+    }
+}
+
+function startPolling() {
+
+    if (!activeBot) {
+        return;
+    }
+
+    $("pollStatus").textContent =
+        "Polling every 3 seconds";
+
+    pollUpdates();
+
+    pollingTimer =
+        setInterval(
+            pollUpdates,
+            3000
+        );
+}
+
+function stopPolling() {
+
+    if (pollingTimer) {
+
+        clearInterval(
+            pollingTimer
+        );
+
+        pollingTimer = null;
+    }
+
+    if (
+        $("pollStatus")
+    ) {
+
+        $("pollStatus").textContent =
+            "Polling stopped";
+    }
+}
+
+async function pollUpdates() {
+
+    if (!activeBot) {
+        return;
+    }
+
+    try {
+
+        const params =
+            new URLSearchParams();
+
+        params.append(
+            "timeout",
+            "0"
+        );
+
+        if (updateOffset) {
+
+            params.append(
+                "offset",
+                String(updateOffset)
+            );
         }
+
+        const updates =
+            await telegram(
+                "getUpdates",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/x-www-form-urlencoded"
+                    },
+
+                    body: params
+                }
+            );
+
+        updates.forEach(
+            update => {
+
+                updateOffset =
+                    update.update_id + 1;
+
+                processUpdate(
+                    update
+                );
+            }
+        );
+
+    } catch (error) {
+
+        $("pollStatus").textContent =
+            `Polling error: ${error.message}`;
+    }
+}
+
+function processUpdate(update) {
+
+    const message =
+        update.message ||
+        update.edited_message;
+
+    if (!message) {
+        return;
+    }
+
+    const from =
+        message.from;
+
+    const chat =
+        message.chat;
+
+    latestUser =
+        from;
+
+    renderUserInfo(
+        from
+    );
+
+    addMessage(
+        message,
+        chat,
+        from
+    );
+}
+
+function addMessage(
+    message,
+    chat,
+    from
+) {
+
+    const container =
+        $("messages");
+
+    let text = "";
+
+    if (message.text) {
+
+        text =
+            message.text;
+
+    } else if (message.caption) {
+
+        text =
+            message.caption;
+
+    } else if (message.photo) {
+
+        text =
+            "[Photo]";
+
+    } else if (message.video) {
+
+        text =
+            "[Video]";
+
+    } else if (message.document) {
+
+        text =
+            `[Document: ${
+                message.document.file_name ||
+                "file"
+            }]`;
+
+    } else {
+
+        text =
+            "[Unsupported message type]";
+    }
+
+    const time =
+        new Date(
+            (
+                message.date ||
+                Math.floor(
+                    Date.now() / 1000
+                )
+            ) * 1000
+        );
+
+    const item =
+        document.createElement(
+            "div"
+        );
+
+    item.className =
+        "message";
+
+    item.innerHTML = `
+
+        <div class="message-header">
+
+            <strong>
+                ${escapeHtml(
+                    from.first_name ||
+                    from.username ||
+                    "Unknown User"
+                )}
+            </strong>
+
+            <small>
+                ${escapeHtml(
+                    chat.title ||
+                    chat.username ||
+                    String(chat.id)
+                )}
+
+                ·
+
+                ${time.toLocaleTimeString()}
+            </small>
+
+        </div>
+
+        <div class="message-text">
+            ${escapeHtml(text)}
+        </div>
+
+    `;
+
+    container.prepend(
+        item
+    );
+}
+
+function renderUserInfo(user) {
+
+    if (!user) {
+        return;
+    }
+
+    $("userInfo").innerHTML = `
+
+        <div class="info-grid">
+
+            <div class="info-item">
+                <span>User ID</span>
+                <strong>
+                    ${escapeHtml(
+                        String(user.id)
+                    )}
+                </strong>
+            </div>
+
+            <div class="info-item">
+                <span>First Name</span>
+                <strong>
+                    ${escapeHtml(
+                        user.first_name ||
+                        ""
+                    )}
+                </strong>
+            </div>
+
+            <div class="info-item">
+                <span>Last Name</span>
+                <strong>
+                    ${escapeHtml(
+                        user.last_name ||
+                        "N/A"
+                    )}
+                </strong>
+            </div>
+
+            <div class="info-item">
+                <span>Username</span>
+                <strong>
+                    ${
+                        user.username
+                            ? "@" +
+                              escapeHtml(
+                                  user.username
+                              )
+                            : "N/A"
+                    }
+                </strong>
+            </div>
+
+        </div>
+    `;
+}
+
+function showResult(
+    message,
+    error = false
+) {
+
+    const box =
+        $("resultBox");
+
+    box.textContent =
+        message;
+
+    box.classList.remove(
+        "hidden"
+    );
+
+    if (error) {
+
+        box.style.background =
+            "#32191c";
+
+        box.style.border =
+            "1px solid #703137";
+
+        box.style.color =
+            "#ff8e96";
+
+    } else {
+
+        box.style.background =
+            "#10291d";
+
+        box.style.border =
+            "1px solid #245f3b";
+
+        box.style.color =
+            "#8ee0ac";
+    }
+
+    setTimeout(
+        () => {
+            box.classList.add(
+                "hidden"
+            );
+        },
+        4000
+    );
+}
+
+function capitalize(value) {
+
+    return (
+        value.charAt(0).toUpperCase() +
+        value.slice(1)
+    );
+}
+
+function escapeHtml(value) {
+
+    return String(value)
+        .replaceAll(
+            "&",
+            "&amp;"
+        )
+        .replaceAll(
+            "<",
+            "&lt;"
+        )
+        .replaceAll(
+            ">",
+            "&gt;"
+        )
+        .replaceAll(
+            '"',
+            "&quot;"
+        )
+        .replaceAll(
+            "'",
+            "&#039;"
+        );
+}
+
+function switchTab(tab) {
+
+    document
+        .querySelectorAll(".tab")
+        .forEach(button => {
+
+            button.classList.toggle(
+                "active",
+                button.dataset.tab === tab
+            );
+
+        });
+
+    document
+        .querySelectorAll(".tab-content")
+        .forEach(content => {
+
+            content.classList.add(
+                "hidden"
+            );
+
+        });
+
+    $(`${tab}Tab`)
+        .classList.remove(
+            "hidden"
+        );
+}
+
+$("addBotBtn")
+    .addEventListener(
+        "click",
+        showModal
+    );
+
+$("emptyConnectBtn")
+    .addEventListener(
+        "click",
+        showModal
+    );
+
+$("closeModal")
+    .addEventListener(
+        "click",
+        hideModal
+    );
+
+$("connectBtn")
+    .addEventListener(
+        "click",
+        connectBot
+    );
+
+$("botToken")
+    .addEventListener(
+        "keydown",
+        event => {
+
+            if (event.key === "Enter") {
+                connectBot();
+            }
+
+        }
+    );
+
+$("sendMessageBtn")
+    .addEventListener(
+        "click",
+        sendMessage
+    );
+
+$("sendPhotoBtn")
+    .addEventListener(
+        "click",
+        () => sendMedia("photo")
+    );
+
+$("sendDocumentBtn")
+    .addEventListener(
+        "click",
+        () => sendMedia("document")
+    );
+
+$("sendVideoBtn")
+    .addEventListener(
+        "click",
+        () => sendMedia("video")
+    );
+
+$("getChatBtn")
+    .addEventListener(
+        "click",
+        getChatInfo
+    );
+
+$("clearMessagesBtn")
+    .addEventListener(
+        "click",
+        () => {
+            $("messages").innerHTML = "";
+        }
+    );
+
+$("useLastUserBtn")
+    .addEventListener(
+        "click",
+        () => {
+
+            if (!latestUser) {
+
+                showResult(
+                    "No user has sent a message yet.",
+                    true
+                );
+
+                return;
+            }
+
+            $("chatId").value =
+                latestUser.id;
+
+            showResult(
+                `User ID ${latestUser.id} selected.`
+            );
+        }
+    );
+
+$("disconnectBtn")
+    .addEventListener(
+        "click",
+        () => {
+
+            stopPolling();
+
+            activeBot = null;
+
+            activeBotId = null;
+
+            localStorage.removeItem(
+                "active_bot_id"
+            );
+
+            showEmpty();
+
+            renderBots();
+        }
+    );
+
+document
+    .querySelectorAll(".tab")
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+                switchTab(
+                    button.dataset.tab
+                );
+            }
+        );
+
     });
-}
 
-async function sendMessage(botToken, chatID, text) {
-    const responseArea = document.getElementById("responseArea");
-    responseArea.textContent = "Sending message...";
+window.addEventListener(
+    "beforeunload",
+    stopPolling
+);
 
-    const payload = {
-        chat_id: chatID,
-        text: text
-    };
+renderBots();
 
-    try {
-        const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(payload)
-        });
+if (
+    activeBotId &&
+    bots.some(
+        bot =>
+            bot.id === activeBotId
+    )
+) {
 
-        const data = await response.json();
-        responseArea.textContent = JSON.stringify(data, null, 2);
-    } catch (error) {
-        responseArea.textContent = "Error: " + error.message;
-    }
+    selectBot(
+        activeBotId
+    );
+
+} else {
+
+    showEmpty();
 }

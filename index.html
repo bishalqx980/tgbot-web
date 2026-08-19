@@ -3,51 +3,451 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="https://bishalqx980.github.io/bishalqx980/assets/images/social_icons/telegram.png" type="image/x-icon">
+    <title>Telegram Bot Manager</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
-    <title>tgbot-web</title>
 </head>
 <body>
-    <div class="maindiv">
-        <h1 class="title">Telegram Bot API PlayGround <sup>beta</sup></h1>
 
-        <!-- Bot Adding Section -->
-        <div class="section">
-            <h2>Add New Bot</h2>
-            <p>Bot Token:</p>
-            <input type="text" class="inputArea" id="botToken" placeholder="Enter your bot token (e.g., 123456789:ABC-DEF1234ghIkl-zyx57W2v1u123ew11)">
-            <button class="btn" id="saveBot">Save Bot</button>
+<div class="app">
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            <span>Telegram</span>
+            <strong>Bot Manager</strong>
         </div>
-        
-        <!-- Saved Bot Section -->
-        <div class="section">
-            <h2>Saved Bots</h2>
-            <div id="botList">
-                <!-- Bots will be displayed here -->
+
+        <button id="addBotBtn" class="add-bot-btn">
+            + Connect Bot
+        </button>
+
+        <div class="section-title">
+            Connected Bots
+        </div>
+
+        <div id="botList" class="bot-list"></div>
+
+    </aside>
+
+    <main class="main">
+
+        <header class="topbar">
+
+            <div>
+                <h1 id="botTitle">No Bot Selected</h1>
+                <p id="botStatus">
+                    Connect a Telegram bot to begin
+                </p>
             </div>
+
+            <button
+                id="disconnectBtn"
+                class="danger-btn hidden"
+            >
+                Disconnect
+            </button>
+
+        </header>
+
+        <section id="emptyState" class="empty-state">
+
+            <div class="empty-icon">
+                +
+            </div>
+
+            <h2>Connect a Telegram Bot</h2>
+
+            <p>
+                Add a bot token to start managing your bot.
+            </p>
+
+            <button id="emptyConnectBtn">
+                Connect Bot
+            </button>
+
+        </section>
+
+        <section id="dashboard" class="dashboard hidden">
+
+            <div class="tabs">
+
+                <button
+                    class="tab active"
+                    data-tab="send"
+                >
+                    Send
+                </button>
+
+                <button
+                    class="tab"
+                    data-tab="updates"
+                >
+                    Messages
+                </button>
+
+                <button
+                    class="tab"
+                    data-tab="info"
+                >
+                    Bot Info
+                </button>
+
+            </div>
+
+            <section id="sendTab" class="tab-content">
+
+                <div class="card recipient-card">
+
+                    <div class="recipient-header">
+
+                        <div>
+                            <h2>Recipient</h2>
+
+                            <p>
+                                All messages and media will be sent
+                                to this chat.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <label for="chatId">
+                        Chat ID / User ID
+                    </label>
+
+                    <input
+                        id="chatId"
+                        type="text"
+                        placeholder="123456789"
+                    >
+
+                    <div class="recipient-actions">
+
+                        <button
+                            id="useLastUserBtn"
+                            class="secondary-btn"
+                        >
+                            Use Last User
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div class="card">
+
+                    <div class="card-title">
+
+                        <div>
+                            <h2>Send Message</h2>
+
+                            <p>
+                                Send text using Telegram formatting.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <label for="messageText">
+                        Message
+                    </label>
+
+                    <textarea
+                        id="messageText"
+                        placeholder="Hello *world*!"
+                    ></textarea>
+
+                    <div class="message-options">
+
+                        <div>
+
+                            <label for="parseMode">
+                                Parse Mode
+                            </label>
+
+                            <select id="parseMode">
+
+                                <option value="">
+                                    Plain Text
+                                </option>
+
+                                <!-- <option value="Markdown">
+                                    Markdown
+                                </option>
+
+                                <option value="MarkdownV2">
+                                    MarkdownV2
+                                </option>
+
+                                <option value="HTML">
+                                    HTML
+                                </option> -->
+
+                            </select>
+
+                        </div>
+
+                        <button
+                            id="sendMessageBtn"
+                            class="primary-btn"
+                        >
+                            Send Message
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div class="card">
+
+                    <div class="card-title">
+
+                        <div>
+                            <h2>Send Media</h2>
+
+                            <p>
+                                Upload and send files to the selected chat.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="media-grid">
+
+                        <div class="media-box">
+
+                            <div class="media-icon">
+                                IMG
+                            </div>
+
+                            <h3>Photo</h3>
+
+                            <input
+                                id="photoFile"
+                                type="file"
+                                accept="image/*"
+                            >
+
+                            <input
+                                id="photoCaption"
+                                type="text"
+                                placeholder="Caption"
+                            >
+
+                            <button id="sendPhotoBtn">
+                                Send Photo
+                            </button>
+
+                        </div>
+
+                        <div class="media-box">
+
+                            <div class="media-icon">
+                                DOC
+                            </div>
+
+                            <h3>Document</h3>
+
+                            <input
+                                id="documentFile"
+                                type="file"
+                            >
+
+                            <input
+                                id="documentCaption"
+                                type="text"
+                                placeholder="Caption"
+                            >
+
+                            <button id="sendDocumentBtn">
+                                Send Document
+                            </button>
+
+                        </div>
+
+                        <div class="media-box">
+
+                            <div class="media-icon">
+                                VID
+                            </div>
+
+                            <h3>Video</h3>
+
+                            <input
+                                id="videoFile"
+                                type="file"
+                                accept="video/*"
+                            >
+
+                            <input
+                                id="videoCaption"
+                                type="text"
+                                placeholder="Caption"
+                            >
+
+                            <button id="sendVideoBtn">
+                                Send Video
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div
+                    id="resultBox"
+                    class="result hidden"
+                ></div>
+
+            </section>
+
+            <section
+                id="updatesTab"
+                class="tab-content hidden"
+            >
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h2>Incoming Messages</h2>
+
+                            <p id="pollStatus">
+                                Polling stopped
+                            </p>
+
+                        </div>
+
+                        <button id="clearMessagesBtn">
+                            Clear
+                        </button>
+
+                    </div>
+
+                    <div
+                        id="messages"
+                        class="messages"
+                    ></div>
+
+                </div>
+
+            </section>
+
+            <section
+                id="infoTab"
+                class="tab-content hidden"
+            >
+
+                <div class="card">
+
+                    <h2>Bot Information</h2>
+
+                    <div
+                        id="botInfo"
+                        class="info-grid"
+                    ></div>
+
+                </div>
+
+                <div class="card">
+
+                    <h2>Get Chat Information</h2>
+
+                    <label for="infoChatId">
+                        Chat ID
+                    </label>
+
+                    <input
+                        id="infoChatId"
+                        type="text"
+                        placeholder="123456789"
+                    >
+
+                    <button
+                        id="getChatBtn"
+                        class="primary-btn chat-info-btn"
+                    >
+                        Get Chat Info
+                    </button>
+
+                    <pre id="chatInfo"></pre>
+
+                </div>
+
+                <div class="card">
+
+                    <h2>Last User Information</h2>
+
+                    <p class="muted">
+                        Information from the latest user who sent
+                        a message to the bot.
+                    </p>
+
+                    <div id="userInfo"></div>
+
+                </div>
+
+            </section>
+
+        </section>
+
+    </main>
+
+</div>
+
+<div
+    id="connectModal"
+    class="modal hidden"
+>
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h2>
+                Connect Telegram Bot
+            </h2>
+
+            <button id="closeModal">
+                ×
+            </button>
+
         </div>
 
-        <!-- Bot interaction Section -->
-        <div id="interactionSection" class="section hidden">
-            <h2>Bot Interaction</h2>
-            <div id="selectedBotInfo"></div>
+        <label for="botToken">
+            Bot Token
+        </label>
 
-            <p>Chat/User ID:</p>
-            <input type="text" id="chatID" class="inputArea" placeholder="Enter chat ID (e.g., 123456789 or @channelusername)">
+        <input
+            id="botToken"
+            type="password"
+            placeholder="123456789:ABC..."
+        >
 
-            <p>Message:</p>
-            <textarea id="messageText" class="inputArea" style="resize: vertical;" rows="4" placeholder="Enter your message"></textarea>
+        <p class="help">
+            Create a bot using @BotFather and paste the token here.
+        </p>
 
-            <button class="btn" id="sendMessage">Send Message</button>
-            
-            <h3>Response:</h3>
-            <div id="responseArea" class="inputArea" style="min-height: 100px;"></div>
-        </div>
+        <button
+            id="connectBtn"
+            class="primary-btn full"
+        >
+            Connect
+        </button>
+
+        <div
+            id="connectError"
+            class="error hidden"
+        ></div>
+
     </div>
-    
-    <div class="credit-div">
-        <p>❐ Developed & Maintained by <a href="https://bishalqx980.github.io/bishalqx980/" class="myName">@bishalqx980</a> | Copyright: <span id="copyrightYear"></span></p>
-    </div>
+
+</div>
+
+<script src="script.js"></script>
+
 </body>
 </html>
